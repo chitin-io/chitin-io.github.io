@@ -1,0 +1,28 @@
+<!doctype html><title>Chitin – gives structure to your squishy bits</title><meta name=go-import content="chitin.io/chitin git https://github.com/chitin-io/chitin"><style>body{background-color:#ffffea;display:flex;justify-content:center}body>div{flex:1}nav.sidebar>ul{display:block;padding:0;margin:0;margin-top:40px;background-color:#f9cc9d}nav.sidebar>ul>li{display:block;padding:0;margin:0}nav.sidebar>ul>li>a{display:block;text-decoration:none;overflow-x:hidden;border-top:1px solid #000;padding:.2em}nav.sidebar>ul>li>a>p{font-size:80%;margin:.2em}nav.sidebar>ul>li:first-child>a{border-top:0}nav.sidebar>ul>li>a:hover{background-color:#fddd9b}table{border-spacing:0}table td,table th{padding:.2em}table th{border-bottom:1px solid #aaa;border-spacing:0}table td:not(:first-child),table th:not(:first-child){border-left:1px solid #aaa;border-spacing:0}</style><div id=content style=flex-shrink:0;flex-basis:80%;max-width:30em;margin:1em><div style=position:relative><div style=color:#d0d0d0;opacity:.3;font-family:helvetica,sans-serif;font-size:300px;font-weight:700;position:absolute;top:500px;left:-250px;-webkit-transform:rotate(-45deg);z-index:-1>DRAFT</div></div><h1 id=chitin-gives-structure-br-to-your-squishy-bits>Chitin &ndash; gives structure<br>to your squishy bits</h1><nav><ul><li><a href=#example-of-a-schema>Example of a schema</a></ul></nav><p>Chitin is a wire format for your data. You could transfer Chitin messages over a TCP/IP socket, or write them to a file.<p>Chitin is especially aimed at being able to give structure to data without needing a parse and copy pass. For example, chitin format data inside an <code>mmapped</code> file will be readable without extra copies.<p>Direct data access is made possible by embracing fixed size data. You can think of Chitin messages like the IETF protocol diagrams of old, except computer managed. This is in stark contrast to formats such as Protocol Buffers, where the message is essentially a sequence of variable-length type-length-value submessages, recursively, and most processing would copy the content out into fixed-size data structures linked with pointers.<p>A Chitin message can contain variable length data, but only after all the fixed fields.<p>Chitin manages schema versioning and protocol evolution by versioning whole messages. Chitin combines message type and version information into a single identifier for efficiency.<p>Chitin is language-independent, but at this time only a Go library exists. That library uses code generation to gain good performance.<p><strong>Status:</strong> the <a href=/spec/v1/>spec</a> is starting to shape up, just about everything else is missing. Be patient, or join us to help out! <a href=https://github.com/chitin-io/web>https://github.com/chitin-io/web</a><h1 id=example-of-a-schema>Example of a schema</h1><p><strong>THIS WILL CHANGE</strong><pre><code class=language-chitin>chitin v1
+
+envelope Bar {
+	messages {
+		1: Person v1
+	}
+}
+
+message Person v1 {
+	wire format: v1
+	options {
+		align: 4
+	}
+
+	slots {
+		age uint16
+		_ [2]byte
+		foo uint32
+	}
+	fields {
+		name string
+		website url
+		data bytes {
+			align: 8
+		}
+	}
+}
+</code></pre></div><div style=flex-grow:1;flex-basis:0;display:flex><div style=flex:1;order:1;flex-grow:0;flex-basis:100px;display:flex><nav class=sidebar style=flex:1><ul><li><a href=/>Introduction<p>and motivation</p></a><li><a href=/spec/v1/>Specification<p>details about the wire format</p></a><li><a href=/code/>Code<p>to actually get things done</p></a></ul></nav></div></div><div style=order:-1;flex-basis:0;flex-grow:1;display:flex;flex-direction:column><img src=/chitin.svg alt style=flex:1;align-self:flex-end;margin:20px;max-height:10em></div>
